@@ -1,0 +1,2 @@
+python-dotenv>=0.20.0
+Django>=3.2.14
