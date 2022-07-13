@@ -1,9 +1,16 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from .models.frame_model import Frame
+
+
 
 
 def index(request):
-    return render(request, './frames_site/index.html')
+    frames = Frame.objects.all()
+    context = {
+        'title': 'Main page',
+        'frames': frames
+    }
+    return render(request, './frames_site/index.html', context)
 
 
 def about(request):

@@ -1,6 +1,6 @@
 from django.db import models
 
-from models import filters
+from model_filters import models as filters
 
 
 class Frame(models.Model):
@@ -12,5 +12,9 @@ class Frame(models.Model):
     filter_genre = models.ManyToManyField(filters.Genre, verbose_name='Жанр')
     filter_date = models.ManyToManyField(filters.Date, verbose_name='Время действия')
 
-    def __str__(self):
-        return self.name
+    def __str__(self, *args, **kwargs):
+        return "%s" % self.name
+
+    class Meta:
+        verbose_name = 'Название кадра'
+        verbose_name_plural = 'Кадры'
