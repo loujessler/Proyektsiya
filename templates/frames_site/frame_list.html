@@ -1,0 +1,52 @@
+{% extends 'frames_site/base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+    <h1>Main page</h1>
+    <div style="display: flex; justify-content: space-around">
+    <form action="{% url 'filter' %}" method="get">
+        <div style="display: flex; justify-content: space-around">
+            <ul style="">
+            <h3>
+                <span>{{ view.get_genre.name }}</span>
+            </h3>
+            {% for genre in view.get_genre.objects %}
+                <li>
+                    <label>
+                        <input type="checkbox" name="genre" value="{{ genre.id }}">
+                    </label>
+                    <span>{{ genre.name }} {{ genre.id }}</span>
+                </li>
+            {% endfor %}
+
+            <h3>
+                <span>{{ view.get_date.name }}</span>
+            </h3>
+            {% for date in view.get_date.objects %}
+                <li>
+                    <label>
+                        <input type="checkbox" name="date" value="{{ date.id }}">
+                    </label>
+                    <span>{{ date.name }} {{ date.id }}</span>
+                </li>
+            {% endfor %}
+            </ul>
+
+        </div>
+    <button type="submit">Search</button>
+    </form>
+    <div>
+            {% for frame in frame_list %}
+                <div>
+                    <span>{{ frame.name }} {{ frame.id }}</span>
+                </div>
+            {% endfor %}
+            </div>
+    </div>
+<span>{{ view.get_queryset }}</span>
+    <a href={% url 'about' %}>О нас</a>
+    <a href={% url 'home' %}>Home</a>
+{% endblock %}
