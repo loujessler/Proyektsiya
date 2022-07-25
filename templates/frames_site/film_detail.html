@@ -1,0 +1,47 @@
+{% extends 'frames_site/base.html' %}
+
+{% block title %}
+    FILM detail
+{% endblock %}
+
+{% block content %}
+    <h1>Film detail page</h1>
+    <div style="display: flex; justify-content: space-around">
+
+        <div class="frames">
+            <div class="row">
+                <div>
+                    <img src="{{ film.poster.url }}" alt="">
+                </div>
+                <ul>
+                    <li>
+                        <span>Название фильма: {{ film.name }}</span>
+                    </li>
+                    <li>
+                        <span>Год создания: {{ film.release_date }}</span>
+                    </li>
+                    <li>
+                        <span>Страна: {{ film.country.name }}</span>
+                    </li>
+                    <li>
+                        <span>РЕЖИССЕР: {{ film.directed }}</span>
+                    </li>
+                    <li>
+                        <span>ОПЕРАТОР: {{ film.cinematographer }}</span>
+                    </li>
+                    <li>
+                        <span>ХУДОЖНИК: {{ film.painter }}</span>
+                    </li>
+                    {% for frame in view.frames %}
+                        <a href="{% url 'frame_detail' frame.id %}">
+                            <img src="{{ frame.frame.url }}" alt="">
+                        </a>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <span>{{ view.get_queryset }}</span>
+    <a href={% url 'about' %}>О нас</a>
+    <a href={% url 'home' %}>Home</a>
+{% endblock %}

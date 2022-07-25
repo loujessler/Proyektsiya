@@ -1,9 +1,11 @@
 from django.db.models import Q
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 
 from model_filters import models as filters
 from .models.frame_model import Frame
+from model_films.models import Film
 
 
 class GetFilters:
@@ -29,6 +31,7 @@ class FramesView(GetFilters, ListView):
     model = Frame
     queryset = Frame.objects.all()
     template_name = './frames_site/frame_list.html'
+    paginate_by = 1  # Количество пагинаций
     # slug_field = 'name'
 
 
@@ -37,15 +40,42 @@ class FrameDetailView(GetFilters, DetailView):
     slug_field = 'url'
 
 
-class FrameFilterView(GetFilters, ListView):
-    # template_name = './frames_site/frame_list.html'
+class FilmDetailView(GetFilters, DetailView):
+    # def get_queryset(self):
+    #     frames = Frame.objects.filter(name=self.kwargs['pk'])
+    #     return frames
 
+    model = Film
+    slug_field = 'url'
+
+    # frames = Frame.objects.filter(name=id)
+
+    template_name = './frames_site/film_detail.html'
+
+
+class FrameFilterView(GetFilters, ListView):
     def get_queryset(self):
         queryset = Frame.objects.filter(
             Q(filter_genre__in=self.request.GET.getlist('genre')) |
             Q(filter_date__in=self.request.GET.getlist('date'))
         ).distinct()
         return queryset
+
+
+class JsonFrameFilterView(GetFilters, ListView):
+    def get_queryset(self):
+        queryset = Frame.objects.filter(
+            Q(filter_genre__in=self.request.GET.getlist('genre', filters.Genre.objects.all())),
+            Q(filter_date__in=self.request.GET.getlist('date', filters.Date.objects.all()))
+        ).distinct().values('frame', 'name', 'id')
+        return queryset
+
+    def get(self, request, *args, **kwargs):
+        queryset = list(self.get_queryset())
+        print(queryset)
+        for item in queryset:
+            item['name'] = list(Film.objects.filter(id=item['name']).values('name'))[0]['name']
+        return JsonResponse({"frames": queryset}, safe=False)
 
 
 # def index(request):

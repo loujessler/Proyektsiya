@@ -1,14 +1,18 @@
 from django.db import models
 
 from model_filters import models as filters
+from model_films.models import Film, Actors
 
 
 class Frame(models.Model):
-    name = models.CharField(verbose_name='Название кадра', max_length=255)
+    frame = models.ImageField(verbose_name='Кадр', upload_to="frames/")
+    name = models.ForeignKey(Film, verbose_name='Название фильма', on_delete=models.CASCADE)
+    # name = models.CharField(verbose_name='Название кадра', max_length=255)
     place = models.CharField(verbose_name='Место действия', max_length=255)
     camera = models.CharField(verbose_name='Камера', max_length=255)
     optics = models.CharField(verbose_name='Оптика', max_length=255)
-    # __________________ Фильтры
+    actors = models.ManyToManyField(Actors, verbose_name='Актеры')
+    #     Filters
     filter_genre = models.ManyToManyField(filters.Genre, verbose_name='Жанр')
     filter_date = models.ManyToManyField(filters.Date, verbose_name='Время действия')
 

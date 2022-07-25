@@ -1,52 +1,89 @@
 {% extends 'frames_site/base.html' %}
 
 {% block title %}
-{{ title }}
+    {{ title }}
 {% endblock %}
 
 {% block content %}
     <h1>Main page</h1>
     <div style="display: flex; justify-content: space-around">
-    <form action="{% url 'filter' %}" method="get">
-        <div style="display: flex; justify-content: space-around">
-            <ul style="">
-            <h3>
-                <span>{{ view.get_genre.name }}</span>
-            </h3>
-            {% for genre in view.get_genre.objects %}
-                <li>
-                    <label>
-                        <input type="checkbox" name="genre" value="{{ genre.id }}">
-                    </label>
-                    <span>{{ genre.name }} {{ genre.id }}</span>
-                </li>
-            {% endfor %}
+        <form action="{% url 'json_filter' %}" method="get" name="filter">
+            <div style="display: flex; justify-content: space-around">
+                <ul style="">
+                    <h3>
+                        <span>{{ view.get_genre.name }}</span>
+                    </h3>
+                    {% for genre in view.get_genre.objects %}
+                        <li>
+                            <label>
+                                <input type="checkbox" name="genre" value="{{ genre.id }}">
+                            </label>
+                            <span>{{ genre.name }} {{ genre.id }}</span>
+                        </li>
+                    {% endfor %}
 
-            <h3>
-                <span>{{ view.get_date.name }}</span>
-            </h3>
-            {% for date in view.get_date.objects %}
-                <li>
-                    <label>
-                        <input type="checkbox" name="date" value="{{ date.id }}">
-                    </label>
-                    <span>{{ date.name }} {{ date.id }}</span>
-                </li>
-            {% endfor %}
-            </ul>
+                    <h3>
+                        <span>{{ view.get_date.name }}</span>
+                    </h3>
+                    {% for date in view.get_date.objects %}
+                        <li>
+                            <label>
+                                <input type="checkbox" name="date" value="{{ date.id }}">
+                            </label>
+                            <span>{{ date.name }} {{ date.id }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
 
-        </div>
-    <button type="submit">Search</button>
-    </form>
-    <div>
-            {% for frame in frame_list %}
-                <div>
-                    <span>{{ frame.name }} {{ frame.id }}</span>
-                </div>
-            {% endfor %}
             </div>
+            <button type="submit">Search</button>
+        </form>
+        {#        <div class="frames">#}
+        {#            <div class="row">#}
+        {#                {% for frame in frame_list %}#}
+        {#                    <a href="{% url 'frame_detail' frame.id %}">#}
+        {#                        <img src="{{ frame.frame.url }}" alt="">#}
+        {#                    </a>#}
+        {#                    <div>#}
+        {#                        <span>{{ frame.name }}</span>#}
+        {#                    </div>#}
+        {#                {% endfor %}#}
+        {#            </div>#}
+        {#        </div>#}
+
+        <div class="frames">
+            <div class="row">
+                {% for frame in page_obj %}
+                    <a href="{% url 'frame_detail' frame.id %}">
+                        <img src="{{ frame.frame.url }}" alt="">
+                    </a>
+                    <div>
+                        <span>{{ frame.name }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="pagination">
+            <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; 1</a>
+                <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+            {% endif %}
+
+                <span class="current">
+                Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+                </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
+            {% endif %}
+            </span>
+        </div>
+
     </div>
-<span>{{ view.get_queryset }}</span>
+    <span>{{ view.get_queryset }}</span>
     <a href={% url 'about' %}>О нас</a>
     <a href={% url 'home' %}>Home</a>
 {% endblock %}
