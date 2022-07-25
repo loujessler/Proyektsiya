@@ -9,7 +9,7 @@ urlpatterns = [
     path('filter/', views.FrameFilterView.as_view(), name='filter'),
     path('json-filter/', views.JsonFrameFilterView.as_view(), name='json_filter'),
     path('<int:pk>/', views.FrameDetailView.as_view(), name='frame_detail'),
-    path('film/film=<int:pk>/', views.FilmDetailView.as_view(), name='film_detail'),
+    path('film/<slug:slug>/', views.FilmDetailView.as_view(), name='film_detail'),
 ]
 
 if settings.DEBUG:

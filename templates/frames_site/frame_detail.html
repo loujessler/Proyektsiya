@@ -11,12 +11,12 @@
         <div class="frames">
             <div class="row">
                 <div>
-                    <img src="{{ frame.frame.url }}" alt="">
+                    <img src="{{ frame.frame.url }}" alt="" width="400">
                 </div>
                 <ul>
                     <li>
                         <span>Название фильма:
-                            <a href="{% url 'film_detail' frame.name.id %}">{{ frame.name }}</a>
+                            <a href="{% url 'film_detail' frame.name.url %}">{{ frame.name }}</a>
                         </span>
                     </li>
                     <li>

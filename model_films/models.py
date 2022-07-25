@@ -2,6 +2,7 @@ from django.db import models
 import datetime
 
 from django_countries.fields import CountryField
+from django_extensions.db.fields import AutoSlugField
 
 
 class Film(models.Model):
@@ -21,7 +22,8 @@ class Film(models.Model):
     cinematographer = models.CharField(verbose_name='ОПЕРАТОР', max_length=255)
     painter = models.CharField(verbose_name='ХУДОЖНИК', max_length=255)
 
-    # url = models.SlugField(max_length=160, unique=True)
+    url = AutoSlugField(populate_from='id')
+
     def __str__(self, *args, **kwargs):
         return "%s" % self.name
 

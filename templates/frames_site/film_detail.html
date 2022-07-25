@@ -11,7 +11,7 @@
         <div class="frames">
             <div class="row">
                 <div>
-                    <img src="{{ film.poster.url }}" alt="">
+                    <img src="{{ film.poster.url }}" alt="" width="250">
                 </div>
                 <ul>
                     <li>
@@ -32,9 +32,9 @@
                     <li>
                         <span>ХУДОЖНИК: {{ film.painter }}</span>
                     </li>
-                    {% for frame in view.frames %}
+                    {% for frame in frames %}
                         <a href="{% url 'frame_detail' frame.id %}">
-                            <img src="{{ frame.frame.url }}" alt="">
+                            <img src="{{ frame.frame.url }}" alt="" width="400">
                         </a>
                     {% endfor %}
                 </ul>

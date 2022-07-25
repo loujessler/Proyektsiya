@@ -48,7 +48,13 @@ class FilmDetailView(GetFilters, DetailView):
     model = Film
     slug_field = 'url'
 
-    # frames = Frame.objects.filter(name=id)
+    # frames = Frame.objects.all()
+
+    def get_context_data(self, **kwargs):
+        # xxx will be available in the template as the related objects
+        context = super(FilmDetailView, self).get_context_data(**kwargs)
+        context['frames'] = Frame.objects.filter(name=self.get_object())
+        return context
 
     template_name = './frames_site/film_detail.html'
 

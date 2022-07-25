@@ -33,7 +33,7 @@ function render(data) {
 let html = '\
 {{#frames}}\
     \<a href="{{ id }}">\
-        <img src="media/{{ frame }}" alt="">\
+        <img src="media/{{ frame }}" alt="" width="400px">\
     </a>\
     <div>\
         <span>{{ name }}</span>\
