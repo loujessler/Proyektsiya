@@ -1,0 +1,60 @@
+{% extends 'frames_site/base.html' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    <h1>Tag page</h1>
+    <p>Tag: {{ view.kwargs.tag_slug }}</p>
+    <div style="display: flex; justify-content: space-around">
+
+        {#                <div class="frames">#}
+        {#                    <div class="row">#}
+        {#                        {% for frame in frame_list %}#}
+        {#                            <a href="{% url 'frame_detail' frame.id %}">#}
+        {#                                <img src="{{ frame.frame.url }}" alt="" width="400">#}
+        {#                            </a>#}
+        {#                            <div>#}
+        {#                                <span>{{ frame.name }}</span>#}
+        {#                            </div>#}
+        {#                        {% endfor %}#}
+        {#                    </div>#}
+        {#                </div>#}
+
+        <div class="frames">
+            <div class="row">
+                {% for frame in frame_list %}
+                    <a href="{% url 'frame_detail' frame.id %}">
+                        <img src="{{ frame.frame.url }}" alt="" width="400">
+                    </a>
+                    <div>
+                        <span>{{ frame.name }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+{#        <div class="pagination">#}
+{#                    <span class="step-links">#}
+{#                    {% if page_obj.has_previous %}#}
+{#                        <a href="?page=1">&laquo; 1</a>#}
+{#                        <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>#}
+{#                    {% endif %}#}
+{##}
+{#                        <span class="current">#}
+{#                        Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.#}
+{#                        </span>#}
+{##}
+{#                        {% if page_obj.has_next %}#}
+{#                            <a href="?page={{ page_obj.next_page_number }}">Следующая</a>#}
+{#                            <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>#}
+{#                        {% endif %}#}
+{#                    </span>#}
+{#        </div>#}
+
+    </div>
+    <span>{{ view.get_queryset }}</span>
+    <a href={% url 'about' %}>О нас</a>
+    <a href={% url 'home' %}>Home</a>
+{% endblock %}

@@ -5,6 +5,7 @@ Pillow>=9.2.0
 # Plugins
 django-countries>=7.3.2
 django-extensions>=3.2.0
+django-taggit>=3.0.0
 
 
 # postgresql

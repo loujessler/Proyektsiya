@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 
+from taggit.models import Tag
 from model_filters import models as filters
 from .models.frame_model import Frame
 from model_films.models import Film
@@ -31,8 +32,17 @@ class FramesView(GetFilters, ListView):
     model = Frame
     queryset = Frame.objects.all()
     template_name = './frames_site/frame_list.html'
-    paginate_by = 1  # Количество пагинаций
+    paginate_by = 5  # Количество пагинаций
+
     # slug_field = 'name'
+
+
+class TagsFramesView(ListView):
+    model = Frame
+    template_name = './frames_site/frame_tag_list.html'
+
+    def get_queryset(self):
+        return Frame.objects.filter(tags__slug=self.kwargs.get('tag_slug'))
 
 
 class FrameDetailView(GetFilters, DetailView):
@@ -41,22 +51,15 @@ class FrameDetailView(GetFilters, DetailView):
 
 
 class FilmDetailView(GetFilters, DetailView):
-    # def get_queryset(self):
-    #     frames = Frame.objects.filter(name=self.kwargs['pk'])
-    #     return frames
-
     model = Film
     slug_field = 'url'
-
-    # frames = Frame.objects.all()
+    template_name = './frames_site/film_detail.html'
 
     def get_context_data(self, **kwargs):
         # xxx will be available in the template as the related objects
         context = super(FilmDetailView, self).get_context_data(**kwargs)
         context['frames'] = Frame.objects.filter(name=self.get_object())
         return context
-
-    template_name = './frames_site/film_detail.html'
 
 
 class FrameFilterView(GetFilters, ListView):
@@ -78,7 +81,6 @@ class JsonFrameFilterView(GetFilters, ListView):
 
     def get(self, request, *args, **kwargs):
         queryset = list(self.get_queryset())
-        print(queryset)
         for item in queryset:
             item['name'] = list(Film.objects.filter(id=item['name']).values('name'))[0]['name']
         return JsonResponse({"frames": queryset}, safe=False)

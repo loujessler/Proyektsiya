@@ -1,4 +1,5 @@
 from django.db import models
+from taggit.managers import TaggableManager
 
 from model_filters import models as filters
 from model_films.models import Film, Actors
@@ -12,6 +13,7 @@ class Frame(models.Model):
     camera = models.CharField(verbose_name='Камера', max_length=255)
     optics = models.CharField(verbose_name='Оптика', max_length=255)
     actors = models.ManyToManyField(Actors, verbose_name='Актеры')
+    tags = TaggableManager()
     #     Filters
     filter_genre = models.ManyToManyField(filters.Genre, verbose_name='Жанр')
     filter_date = models.ManyToManyField(filters.Date, verbose_name='Время действия')

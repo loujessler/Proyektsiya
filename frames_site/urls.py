@@ -9,6 +9,7 @@ urlpatterns = [
     path('filter/', views.FrameFilterView.as_view(), name='filter'),
     path('json-filter/', views.JsonFrameFilterView.as_view(), name='json_filter'),
     path('<int:pk>/', views.FrameDetailView.as_view(), name='frame_detail'),
+    path('tags/<slug:tag_slug>/', views.TagsFramesView.as_view(), name='frames_by_tag'),
     path('film/<slug:slug>/', views.FilmDetailView.as_view(), name='film_detail'),
 ]
 

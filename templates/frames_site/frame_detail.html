@@ -40,6 +40,15 @@
                             {{ genre.name }}
                         {% endfor %}
                     </li>
+                    <li>
+                        <span>Тэги: </span>
+                        {% for tag in frame.tags.all %}
+                            <a href="{% url "frames_by_tag" tag.slug %}">
+                                {{ tag.name }}
+                            </a>
+
+                        {% endfor %}
+                    </li>
 
                 </ul>
             </div>
